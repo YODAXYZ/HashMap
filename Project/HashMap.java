@@ -1,5 +1,7 @@
 package Project;
-
+//fewffffffffffffffffffffffffffff
+//wefxXc
+//ewfwe/
 import java.util.*;
 
 public class HashMap<K, V> extends AbstractMap {
@@ -27,7 +29,15 @@ public class HashMap<K, V> extends AbstractMap {
         this.table = table;
         this.length = 1;
     }
+    public int hash(final K key){
 
+        int hash = 37;
+        hash = hash *17 + key.hashCode();
+        return hash % table.length;
+    }
+    private int hash(Entry<K,V> node){
+        return node.hashCode() % table.length;
+    }
     @Override
     public Set<Entry> entrySet() {
         return null;
@@ -38,6 +48,7 @@ public class HashMap<K, V> extends AbstractMap {
     }
     private void expansionMap(){
         table =Arrays.copyOf(table,table.length *2);
+        capacity *=2;
     }
 
     public void insert(K key, V value) {
@@ -57,11 +68,25 @@ public class HashMap<K, V> extends AbstractMap {
         else {
             table[index] = new HashMapper(key.hashCode(), key, value, null);
         }
-        length++;
+        capacity--;
+    }
+    private class MyIterator implements Iterator<Entry<K,V>>{
+        int cursor = 0;
+
+
+        @Override
+        public boolean hasNext() {
+            return length < table.length-1;
+        }
+
+        @Override
+        public Entry<K, V> next() {
+            return null;
+        }
     }
 
-    private class HashMapper<K, V> implements Entry<K, V> {
-        final int hash;
+    public class HashMapper<K, V> implements Entry<K, V> {
+        int hash;
         final K key;
         V value;
         HashMapper<K,V> next;
@@ -79,7 +104,10 @@ public class HashMap<K, V> extends AbstractMap {
   //      public final String toString() { return key + "=" + value; }
 
         public final int hashCode() {
-            return Objects.hashCode(key) ^ Objects.hashCode(value);
+            hash = 31;
+            hash = hash *17 + key.hashCode();
+            hash = hash * 17 + value.hashCode();
+            return hash;
         }
 
         public final V setValue(V newValue) {
@@ -92,10 +120,11 @@ public class HashMap<K, V> extends AbstractMap {
     public void sout() {
         for (int i = 0; i < table.length; i++) {
             if (table[i] == null) {
-                continue;
+               // System.out.println("EEWQ");
             }
             else {
-                System.out.println(table[i]);
+                System.out.println(table[i].getKey());
+                System.out.println(table[i].getValue());
             }
         }
     }
@@ -103,7 +132,11 @@ public class HashMap<K, V> extends AbstractMap {
     public static void main(String[] args) {
         HashMap<String,String> rem = new HashMap<String, String>();
         rem.insert("Sand","Origin");
+        rem.insert("Sand","rewers");
+        rem.insert("Sand","Orqer");
+        rem.insert("REVELATION","RERGE");
         rem.sout();
+
     }
 
 }
